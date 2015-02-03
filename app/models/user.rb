@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 
   # Forgets a user
   def forget
-    self.update_attributes(remember_digest: nil)
+    update_attributes(remember_digest: nil)
   end
 
   # Follows a user.
