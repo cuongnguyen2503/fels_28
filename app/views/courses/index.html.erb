@@ -15,8 +15,13 @@
         <%= link_to "Words", "#", class: 'btn btn-primary btn-custom' %><span><%= link_to "Lessons", courses_path, class: 'btn btn-primary btn-custom' %></span>
       </div>
       <div class = "activities">
-        <strong>Activities</strong>
+        <div class = "all_courses">All Courses</div>
         <hr />
+        <%= will_paginate %>
+
+		<div class="courses">
+		  <%= render @courses %>
+		</div>
       </div>
     </div>  
   </div>
