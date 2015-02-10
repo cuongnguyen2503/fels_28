@@ -22,6 +22,13 @@ User.create!(name:  "Example User",
               password_confirmation: password)
 end
 
+users = User.order(:created_at).take(6)
+50.times do
+  name = Faker::Lorem.sentence(1)
+  content = Faker::Lorem.sentence(5)
+  users.each { |user| user.courses.create!(name: name, content: content) }
+end
+
 # Following relationships
 users = User.all
 user  = users.first

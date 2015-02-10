@@ -1,3 +1,6 @@
-<%= link_to gravatar_for(current_user, size: 50), current_user %>
-<h1><%= current_user.name %></h1>
-<span><%= link_to "view my profile", current_user %></span>
+<%= link_to gravatar_for(current_user, size: 80), current_user %>
+<div class = "user_name"><%= current_user.name %></div>
+<div class = "user_details">
+	<%= link_to "view my profile", current_user %>
+</div>
+<%= render 'shared/stats' %>
