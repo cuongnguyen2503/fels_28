@@ -12,7 +12,7 @@ User.create!(name:  "Example User",
              password_confirmation: "foobar",
              admin:     true)
 
-99.times do |n|
+30.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
   password = "password"
@@ -22,17 +22,37 @@ User.create!(name:  "Example User",
               password_confirmation: password)
 end
 
-users = User.order(:created_at).take(6)
 50.times do
   name = Faker::Lorem.sentence(1)
   content = Faker::Lorem.sentence(5)
-  users.each { |user| user.courses.create!(name: name, content: content) }
+  Course.create!(name: name, content: content)
 end
 
 # Following relationships
 users = User.all
 user  = users.first
-following = users[2..50]
-followers = users[3..40]
+following = users[2..30]
+followers = users[3..20]
 following.each { |followed| user.follow(followed) }
 followers.each { |follower| follower.follow(user) }
+
+# Words
+course = Course.find_by(id: 1)
+30.times do |num|
+  word = "word_#{num + 1}"
+  translation = "#{word}_trans"
+  Word.create!(word: word, translation: translation, course_id: course.id)
+end
+course = Course.find_by(id: 2)
+30.times do |num|
+  word = "word_#{num + 31}"
+  translation = "#{word}_trans"
+  Word.create!(word: word, translation: translation, course_id: course.id)
+end
+
+# Learn words
+user = User.find_by(id: 1)
+10.times do |word_id|
+  word_id = word_id + 1
+  LearnedWord.create!(user_id: user.id, word_id: word_id)
+end

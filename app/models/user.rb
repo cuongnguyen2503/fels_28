@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
 
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
-  has_many :lessons
-  has_many :courses
+
+  has_many :learned_words, dependent: :destroy
 
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
@@ -62,4 +62,20 @@ class User < ActiveRecord::Base
   def following?(other_user)
     following.include?(other_user)
   end  
+
+  # Gets words learned in a course
+  def get_learned_words_in(course_id)
+    learned_words_id = "select word_id from learned_words
+                        where user_id = #{id}"
+    Word.where("course_id = #{course_id}
+                and words.id in (#{learned_words_id})")
+  end
+
+  # Gets words not learned in a course
+  def get_not_learned_words_in(course_id)
+    learned_words_id = "select word_id from learned_words
+                        where user_id = #{id}"
+    Word.where("course_id = #{course_id}
+                and words.id not in (#{learned_words_id})")
+  end
 end

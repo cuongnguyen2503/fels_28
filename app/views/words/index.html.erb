@@ -1,0 +1,11 @@
+<%= render 'filter_form' %>
+<%= will_paginate %>
+<ul>
+  <% @words.each do |word| %>
+    <li>
+       <span><%= word.word %></span>
+       <span><%= word.translation %></span>
+    </li>
+  <% end %>
+</ul>
+<%= will_paginate %>

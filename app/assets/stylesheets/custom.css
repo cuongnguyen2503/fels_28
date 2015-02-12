@@ -138,6 +138,36 @@ input {
   height: auto !important;
 }
 
+.select-course {
+  width: auto;
+}
+
+.learned-status {
+  width: auto;
+}
+
+.filter-btn {
+  width: 10%;
+}
+
+.condition-div {
+  text-align: center;
+}
+
+.select-course-box {
+  margin: auto;
+  display: inline-block;
+}
+
+.radio-btn-group {
+  margin: auto;
+  display: inline-block;
+}
+
+.filter-btn-div {
+  display: block;
+}
+
 .checkbox {
   margin-top: -10px;
   margin-bottom: 10px;
