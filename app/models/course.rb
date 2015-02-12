@@ -1,4 +1,5 @@
 class Course < ActiveRecord::Base
-  has_many :lessons
   belongs_to :user
+
+  has_many :words, dependent: :destroy
 end

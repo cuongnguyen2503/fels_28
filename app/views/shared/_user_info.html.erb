@@ -1,6 +1,6 @@
 <%= link_to gravatar_for(current_user, size: 80), current_user %>
 <div class = "user_name"><%= current_user.name %></div>
 <div class = "user_details">
-	<%= link_to "view my profile", current_user %>
+  <span>Learned <%= current_user.learned_words.count %> words</span>
 </div>
 <%= render 'shared/stats' %>

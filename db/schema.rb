@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210014650) do
+ActiveRecord::Schema.define(version: 20150212015600) do
 
   create_table "courses", force: true do |t|
     t.string   "name"
@@ -23,17 +23,15 @@ ActiveRecord::Schema.define(version: 20150210014650) do
 
   add_index "courses", ["user_id"], name: "index_courses_on_user_id", using: :btree
 
-  create_table "lessons", force: true do |t|
-    t.string   "result"
-    t.string   "number_words"
+  create_table "learned_words", force: true do |t|
     t.integer  "user_id"
-    t.integer  "course_id"
+    t.integer  "word_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "lessons", ["course_id"], name: "index_lessons_on_course_id", using: :btree
-  add_index "lessons", ["user_id"], name: "index_lessons_on_user_id", using: :btree
+  add_index "learned_words", ["user_id"], name: "index_learned_words_on_user_id", using: :btree
+  add_index "learned_words", ["word_id"], name: "index_learned_words_on_word_id", using: :btree
 
   create_table "relationships", force: true do |t|
     t.integer  "follower_id"
@@ -58,5 +56,15 @@ ActiveRecord::Schema.define(version: 20150210014650) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+
+  create_table "words", force: true do |t|
+    t.string   "word"
+    t.string   "translation"
+    t.integer  "course_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "words", ["course_id"], name: "index_words_on_course_id", using: :btree
 
 end

@@ -1,0 +1,27 @@
+<%= form_for @word, method: "get" do |f| %>
+  <div class="condition-div">
+    <span>Category</span>
+    <div class="select-course-box">
+      <%= f.collection_select(:course_id, Course.all, :id, :name,
+                              { selected: @selected_course_id },
+                              class: "form-control select-course") %>
+    </div>
+    <div class="radio-btn-group">
+      <%= f.radio_button "learned_status", "learned",
+                          checked: @selected_rbtn_value == "learned",
+                          class: "learned-status" %>
+      <%= f.label "Learned" %>
+      <%= f.radio_button "learned_status", "not_learned",
+                          checked: @selected_rbtn_value == "not_learned",
+                          class: "learned-status" %>
+      <%= f.label "Not learned" %>
+      <%= f.radio_button "learned_status", "all",
+                          checked: @selected_rbtn_value == "all",
+                          class: "learned-status" %>
+      <%= f.label "All" %>
+    </div>
+    <div class="filter-btn-div">
+      <%= f.submit "Filter", class: "filter-btn btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
