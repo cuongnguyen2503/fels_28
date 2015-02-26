@@ -41,18 +41,89 @@ course = Course.find_by(id: 1)
 30.times do |num|
   word = "word_#{num + 1}"
   translation = "#{word}_trans"
-  Word.create!(word: word, translation: translation, course_id: course.id)
+  w = Word.create!(word: word, translation: translation, course_id: course.id)
+
+  has_true_answer = false
+  3.times do |n|
+    true_answer = rand(2) == 1 if has_true_answer == false
+    if true_answer == true
+      has_true_answer = true
+      choice = "#{word}_trans"
+    else
+      choice = "#{word}_choice_#{n + 1}"
+    end
+    Choice.create!(choice: choice, word_id: w.id)
+  end
+  if has_true_answer == false
+    choice = "#{word}_trans"
+  else
+    choice = "#{word}_choice_4"
+  end
+  Choice.create!(choice: choice, word_id: w.id)
 end
+
 course = Course.find_by(id: 2)
 30.times do |num|
   word = "word_#{num + 31}"
   translation = "#{word}_trans"
-  Word.create!(word: word, translation: translation, course_id: course.id)
+  w = Word.create!(word: word, translation: translation, course_id: course.id)
+
+  has_true_answer = false
+  3.times do |n|
+    true_answer = rand(2) == 1 if has_true_answer == false
+    if true_answer == true
+      has_true_answer = true
+      choice = "#{word}_trans"
+    else
+      choice = "#{word}_choice_#{n + 1}"
+    end
+    Choice.create!(choice: choice, word_id: w.id)
+  end
+  if has_true_answer == false
+    choice = "#{word}_trans"
+  else
+    choice = "#{word}_choice_4"
+  end
+  Choice.create!(choice: choice, word_id: w.id)
+
 end
+
+course = Course.find_by(id: 3)
+30.times do |num|
+  word = "word_#{num + 61}"
+  translation = "#{word}_trans"
+  w = Word.create!(word: word, translation: translation, course_id: course.id)
+
+  has_true_answer = false
+  3.times do |n|
+    true_answer = rand(2) == 1 if has_true_answer == false
+    if true_answer == true
+      has_true_answer = true
+      choice = "#{word}_trans"
+    else
+      choice = "#{word}_choice_#{n + 1}"
+    end
+    Choice.create!(choice: choice, word_id: w.id)
+  end
+  if has_true_answer == false
+    choice = "#{word}_trans"
+  else
+    choice = "#{word}_choice_4"
+  end
+  Choice.create!(choice: choice, word_id: w.id)
+
+end
+
 
 # Learn words
 user = User.find_by(id: 1)
 10.times do |word_id|
+  result = rand(2) == 1 ? true : false
   word_id = word_id + 1
-  LearnedWord.create!(user_id: user.id, word_id: word_id)
+  LearnedWord.create!(user_id: user.id, word_id: word_id, result: result)
+end
+30.times do |word_id|
+  result = rand(2) == 1 ? true : false
+  word_id = word_id + 61
+  LearnedWord.create!(user_id: user.id, word_id: word_id, result: result)
 end

@@ -1,0 +1,23 @@
+<div>
+  <%= "#{@course.name} (#{current_user.num_of_learned_words(@course.id) + 1}/#{@course.words.count})" %>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <%= @word.word %>
+  </div>
+  <div class="col-md-6 radio-btn-group">
+    <%= form_for [@course, @word], method: "get" do |f| %>
+      <ul class="answer-list">
+        <% @choices.each do |choice| %>
+          <li>
+            <%= f.radio_button "choice", choice.choice,
+                                checked: choice == @choices.first,
+                                class: "answer-radio-btn" %>
+            <%= f.label "#{choice.choice}", class: "answer-label" %>
+          </li>
+        <% end %>
+      </ul>
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

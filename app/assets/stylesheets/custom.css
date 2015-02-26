@@ -54,6 +54,14 @@ p {
   line-height: 1.7em;
 }
 
+.text-result-true {
+  color: green;
+}
+
+.text-result-false {
+  color: red;
+}
+
 /* header */
 
 #logo {
@@ -125,6 +133,24 @@ footer ul li {
   @include box_sizing;
 }
 
+.result-sign {
+  width: 30%;
+  display: inline-block;
+  text-align: center;
+}
+
+.original-word {
+  width: 30%;
+  display: inline-block;
+  text-align: center;
+}
+
+.translation-word {
+  width: 30%;
+  display: inline-block;
+  text-align: center;
+}
+
 /* forms */
 
 input, textarea, select, .uneditable-input {
@@ -162,6 +188,17 @@ input {
 .radio-btn-group {
   margin: auto;
   display: inline-block;
+}
+
+.answer-radio-btn {
+  width: auto;
+}
+
+.answer-label {
+}
+
+.answer-list {
+  list-style: none;
 }
 
 .filter-btn-div {

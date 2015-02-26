@@ -1,0 +1,25 @@
+<div>
+  <div>
+    <span><%= "#{@course.name} (#{current_user.num_of_learned_words(@course.id)}/#{@course.words.count})" %></span>
+  </div>
+  <div>
+    <% @learned_words.each do |learned_word| %>
+      <% result = learned_word.get_result(current_user.id) %>
+      <div class="result-sign">
+        <span class="text-result-<%= result.to_s %>">
+          <%= result == true ? "x" : "o" %>
+        </span>
+      </div>
+      <div class="original-word">
+        <span class="text-result-<%= result.to_s %>">
+          <%= learned_word.word %>
+        </span>
+      </div>
+      <div class="translation-word">
+        <span class="text-result-<%= result.to_s %>">
+          <%= learned_word.translation %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>
