@@ -9,6 +9,12 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
+    not_learned_words = current_user.not_learned_words_in(@course.id)
+    if !not_learned_words.empty?
+      redirect_to course_word_path(@course.id, not_learned_words.first.id)
+    else
+      redirect_to result_path(@course.id)
+    end
   end
 
   def new

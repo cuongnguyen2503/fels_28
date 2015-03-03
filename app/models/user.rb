@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   end  
 
   # Gets words learned in a course
-  def get_learned_words_in(course_id)
+  def learned_words_in(course_id)
     learned_words_id = "select word_id from learned_words
                         where user_id = #{id}"
     Word.where("course_id = #{course_id}
@@ -72,10 +72,18 @@ class User < ActiveRecord::Base
   end
 
   # Gets words not learned in a course
-  def get_not_learned_words_in(course_id)
+  def not_learned_words_in(course_id)
     learned_words_id = "select word_id from learned_words
                         where user_id = #{id}"
     Word.where("course_id = #{course_id}
                 and words.id not in (#{learned_words_id})")
+  end
+
+  # Gets number of learned words
+  def num_of_learned_words(course_id)
+    learned_words_id = "select word_id from learned_words
+                        where user_id = #{id}"
+    Word.where("course_id = #{course_id}
+                and words.id in (#{learned_words_id})").count
   end
 end
