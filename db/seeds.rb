@@ -40,8 +40,8 @@ followers.each { |follower| follower.follow(user) }
 course = Course.find_by(id: 1)
 30.times do |num|
   word = "word_#{num + 1}"
-  translation = "#{word}_trans"
-  w = Word.create!(word: word, translation: translation, course_id: course.id)
+  trans = "#{word}_trans"
+  w = Word.create!(word: word, translation: trans, course_id: course.id)
 
   has_true_answer = false
   3.times do |n|
@@ -52,21 +52,21 @@ course = Course.find_by(id: 1)
     else
       choice = "#{word}_choice_#{n + 1}"
     end
-    Choice.create!(choice: choice, word_id: w.id)
+    Choice.create!(choice: choice, word_id: w.id, right_choice: has_true_answer)
   end
   if has_true_answer == false
     choice = "#{word}_trans"
   else
     choice = "#{word}_choice_4"
   end
-  Choice.create!(choice: choice, word_id: w.id)
+  Choice.create!(choice: choice, word_id: w.id, right_choice: has_true_answer)
 end
 
 course = Course.find_by(id: 2)
 30.times do |num|
   word = "word_#{num + 31}"
-  translation = "#{word}_trans"
-  w = Word.create!(word: word, translation: translation, course_id: course.id)
+  trans = "#{word}_trans"
+  w = Word.create!(word: word, translation: trans, course_id: course.id)
 
   has_true_answer = false
   3.times do |n|
@@ -77,22 +77,22 @@ course = Course.find_by(id: 2)
     else
       choice = "#{word}_choice_#{n + 1}"
     end
-    Choice.create!(choice: choice, word_id: w.id)
+    Choice.create!(choice: choice, word_id: w.id, right_choice: has_true_answer)
   end
   if has_true_answer == false
     choice = "#{word}_trans"
   else
     choice = "#{word}_choice_4"
   end
-  Choice.create!(choice: choice, word_id: w.id)
+  Choice.create!(choice: choice, word_id: w.id, right_choice: has_true_answer)
 
 end
 
 course = Course.find_by(id: 3)
 30.times do |num|
   word = "word_#{num + 61}"
-  translation = "#{word}_trans"
-  w = Word.create!(word: word, translation: translation, course_id: course.id)
+  trans = "#{word}_trans"
+  w = Word.create!(word: word, translation: trans, course_id: course.id)
 
   has_true_answer = false
   3.times do |n|
@@ -103,27 +103,34 @@ course = Course.find_by(id: 3)
     else
       choice = "#{word}_choice_#{n + 1}"
     end
-    Choice.create!(choice: choice, word_id: w.id)
+    Choice.create!(choice: choice, word_id: w.id, right_choice: has_true_answer)
   end
   if has_true_answer == false
     choice = "#{word}_trans"
   else
     choice = "#{word}_choice_4"
   end
-  Choice.create!(choice: choice, word_id: w.id)
+  Choice.create!(choice: choice, word_id: w.id, right_choice: has_true_answer)
 
 end
 
-
-# Learn words
+# Lessons
 user = User.find_by(id: 1)
-10.times do |word_id|
-  result = rand(2) == 1 ? true : false
-  word_id = word_id + 1
-  LearnedWord.create!(user_id: user.id, word_id: word_id, result: result)
+2.times do |n|
+  n += 1
+  course = Course.find_by(id: n)
+  Lesson.create!(user_id: user.id, course_id: course.id)
 end
-30.times do |word_id|
-  result = rand(2) == 1 ? true : false
-  word_id = word_id + 61
-  LearnedWord.create!(user_id: user.id, word_id: word_id, result: result)
+
+# Learned words
+len_arr = [20, 10]
+2.times do |n|
+  n += 1
+  lesson = Lesson.find_by(id: n)
+  words = Course.find_by(id: n).words.take(len_arr[n - 1])
+  words.each do |word|
+    choice = word.choices.sample
+    LearnedWord.create!(lesson_id: lesson.id, word_id: word.id,
+                        choice_id: choice.id)
+  end
 end

@@ -133,22 +133,27 @@ footer ul li {
   @include box_sizing;
 }
 
+.word-translation-table {
+  width: 100%;
+}
+
+.row-head {
+  width: 30%;
+}
+
 .result-sign {
   width: 30%;
-  display: inline-block;
   text-align: center;
 }
 
 .original-word {
   width: 30%;
-  display: inline-block;
-  text-align: center;
+  text-align: left;
 }
 
 .translation-word {
   width: 30%;
-  display: inline-block;
-  text-align: center;
+  text-align: left;
 }
 
 /* forms */

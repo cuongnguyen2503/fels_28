@@ -64,27 +64,27 @@ class User < ActiveRecord::Base
     following.include?(other_user)
   end  
 
-  # Gets words learned in a course
+  def num_of_learned_words
+    lessons_id = Lesson.learned_by_user(id).pluck(:id)
+    LearnedWord.in_lessons(lessons_id).count
+  end
+
   def learned_words_in(course_id)
-    learned_words_id = "select word_id from learned_words
-                        where user_id = #{id}"
-    Word.where("course_id = #{course_id}
-                and words.id in (#{learned_words_id})")
+     course = Course.find course_id
+     lessons_ids = course.lessons.pluck :id
+     learned_words_ids = LearnedWord.in_lessons(lessons_ids).pluck :word_id
+     Word.where id: learned_words_ids
   end
 
-  # Gets words not learned in a course
   def not_learned_words_in(course_id)
-    learned_words_id = "select word_id from learned_words
-                        where user_id = #{id}"
-    Word.where("course_id = #{course_id}
-                and words.id not in (#{learned_words_id})")
+    lessons_id = Lesson.in_course(course_id).pluck(:id)
+    learned_words_id = LearnedWord.in_lessons(lessons_id).pluck(:word_id).join(",")
+    Word.not_learned_in_course(learned_words_id, course_id)
   end
 
-  # Gets number of learned words
-  def num_of_learned_words(course_id)
-    learned_words_id = "select word_id from learned_words
-                        where user_id = #{id}"
-    Word.where("course_id = #{course_id}
-                and words.id in (#{learned_words_id})").count
+  def num_of_learned_words_in(course_id)
+    lessons_id = Lesson.in_course(course_id).pluck(:id)
+    learned_words_id = LearnedWord.in_lessons(lessons_id).pluck(:word_id)
+    Word.where(id: learned_words_id).count
   end
 end
