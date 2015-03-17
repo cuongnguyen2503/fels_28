@@ -22,7 +22,7 @@ User.create!(name:  "Example User",
               password_confirmation: password)
 end
 
-50.times do
+30.times do
   name = Faker::Lorem.sentence(1)
   content = Faker::Lorem.sentence(5)
   Course.create!(name: name, content: content)
@@ -116,21 +116,26 @@ end
 
 # Lessons
 user = User.find_by(id: 1)
-2.times do |n|
+3.times do |n|
   n += 1
   course = Course.find_by(id: n)
+  Lesson.create!(user_id: user.id, course_id: course.id)
   Lesson.create!(user_id: user.id, course_id: course.id)
 end
 
 # Learned words
-len_arr = [20, 10]
-2.times do |n|
-  n += 1
-  lesson = Lesson.find_by(id: n)
-  words = Course.find_by(id: n).words.take(len_arr[n - 1])
-  words.each do |word|
-    choice = word.choices.sample
-    LearnedWord.create!(lesson_id: lesson.id, word_id: word.id,
-                        choice_id: choice.id)
+3.times do |n|
+  course = Course.find_by(id: (n + 1))
+  lessons = course.lessons
+  n *= 30
+  (n + 1).upto(n + 20) do |word_id|
+    word = Word.find_by id: word_id
+    LearnedWord.create!(word_id: word_id, lesson_id: lessons[0].id,
+                        choice_id: nil)
+  end
+  (n + 21).upto(n + 30) do |word_id|
+    word = Word.find_by id: word_id
+    LearnedWord.create!(word_id: word_id, lesson_id: lessons[1].id,
+                        choice_id: nil)
   end
 end

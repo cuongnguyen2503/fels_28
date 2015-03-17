@@ -1,0 +1,32 @@
+<div class="row">
+  <div>
+    <span>
+      <%= link_to "#{@course.name}", course_path(@course) %>
+      <%= "result: #{@lesson.num_of_right_answers}/#{@lesson.learned_words.count}" %>
+    </span>
+  </div>
+  <div class="col-md-8">
+    <table class="word-translation-table">
+      <% @learned_words.each do |learned_word| %>
+        <tr>
+          <% result = learned_word.choice.right_choice.to_s %>
+          <td class="result-sign">
+            <span class="text-result-<%= result %>">
+              <%= result == "true" ? "o" : "x" %>
+            </span>
+          </td>
+          <td class="original-word">
+            <span class="text-result-<%= result %>">
+              <%= learned_word.word.word %>
+            </span>
+          </td>
+          <td class="translation-word">
+            <span class="text-result-<%= result %>">
+              <%= learned_word.word.translation %>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
