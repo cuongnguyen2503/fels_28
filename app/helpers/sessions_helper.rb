@@ -34,6 +34,14 @@ module SessionsHelper
     !current_user.nil?
   end
 
+  def logged_in_user
+    unless logged_in?
+      store_location
+      flash[:danger] = "Please log in."
+      redirect_to login_path
+    end
+  end
+
   # Forgets user, clears cookie
   def forget(user)
     user.forget

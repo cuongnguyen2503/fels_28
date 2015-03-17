@@ -65,26 +65,32 @@ class User < ActiveRecord::Base
   end  
 
   def num_of_learned_words
-    lessons_id = Lesson.learned_by_user(id).pluck(:id)
-    LearnedWord.in_lessons(lessons_id).count
+    lessons_ids = lessons.pluck :id
+    return 0 if lessons_ids.empty?
+    LearnedWord.submitted_in_lessons(lessons_ids.join(",")).count
   end
 
   def learned_words_in(course_id)
-     course = Course.find course_id
-     lessons_ids = course.lessons.pluck :id
-     learned_words_ids = LearnedWord.in_lessons(lessons_ids).pluck :word_id
-     Word.where id: learned_words_ids
+    course = Course.find course_id
+    lessons_ids = course.lessons.ids.join(",")
+    learned_words_ids = LearnedWord.submitted_in_lessons(lessons_ids).
+                                    pluck :word_id
+    Word.where id: learned_words_ids
   end
 
   def not_learned_words_in(course_id)
-    lessons_id = Lesson.in_course(course_id).pluck(:id)
-    learned_words_id = LearnedWord.in_lessons(lessons_id).pluck(:word_id).join(",")
-    Word.not_learned_in_course(learned_words_id, course_id)
+    course = Course.find course_id
+    lessons_ids = course.lessons.ids.join(",")
+    not_learned_words_ids = LearnedWord.remain_in_lessons(lessons_ids).
+                                    pluck :word_id
+    Word.where id: not_learned_words_ids
   end
 
   def num_of_learned_words_in(course_id)
-    lessons_id = Lesson.in_course(course_id).pluck(:id)
-    learned_words_id = LearnedWord.in_lessons(lessons_id).pluck(:word_id)
+    course = Course.find course_id
+    lessons_ids = course.lessons.ids.join(",")
+    learned_words_ids = LearnedWord.submitted_in_lessons(lessons_ids).
+                                    pluck :word_id
     Word.where(id: learned_words_id).count
   end
 end
