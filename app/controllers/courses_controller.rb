@@ -1,20 +1,15 @@
 class CoursesController < ApplicationController
-  before_action :logged_in_user, only: [:new, :create, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :show]
   before_action :correct_user,   only: [:edit, :update]  
   before_action :admin_user,     only: [:destroy]
 
   def index
-    @courses = Course.paginate(page: params[:page])
+    @courses = Course.paginate page: params[:page]
   end
 
   def show
-    @course = Course.find(params[:id])
-    not_learned_words = current_user.not_learned_words_in(@course.id)
-    if !not_learned_words.empty?
-      redirect_to course_word_path(@course.id, not_learned_words.first.id)
-    else
-      redirect_to result_path(@course.id)
-    end
+    @course = Course.find params[:id]
+    @lessons = @course.lessons_learned_by_user current_user.id
   end
 
   def new
@@ -50,13 +45,6 @@ class CoursesController < ApplicationController
       params.require(:course).permit(:name, :content) 
     end  
 
-    # Confirm correct user to edit course
-    def correct_user
-      @course = current_user.courses.find_by(id: params[:id])
-      redirect_to courses_path if @course.nil?
-    end
-
-    # Confirms an admin user.
     def admin_user
       redirect_to(root_url) unless current_user.admin?
     end      
