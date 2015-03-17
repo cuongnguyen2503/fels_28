@@ -14,7 +14,9 @@ Rails.application.routes.draw do
 
   resources :relationships,   only: [:create, :destroy]
 
-  resources :courses, only: [:index, :show] do
+  resources :courses, only: [:index, :show]
+
+  resources :lessons, only: [:show] do
     resources :words, only: [:show]
   end
 

@@ -1,4 +1,6 @@
 class WordsController < ApplicationController
+  before_action :logged_in_user, only: [:index, :show]
+
   def index
     @word  = Word.new
     course_id = selected_course_id
@@ -8,13 +10,19 @@ class WordsController < ApplicationController
   end
 
   def show
+    @word = Word.find params[:id]
+    @lesson = Lesson.find params[:lesson_id]
+    @course = @lesson.course
     if params[:word].nil?
-      @course = Course.find params[:course_id]
-      @word = Word.find params[:id]
       @choices = @word.choices
     else
       process_answer
-      redirect_to course_path(params[:course_id])
+      next_word = @lesson.first_remain_word
+      if next_word.nil?
+        redirect_to lesson_path params[:lesson_id]
+      else
+        redirect_to lesson_word_path(@lesson.id, next_word.id)
+      end
     end
   end
 
@@ -41,20 +49,18 @@ class WordsController < ApplicationController
     def words_filtered_by(course_id, rbtn_value)
       case rbtn_value
       when "learned"
-        words = current_user.learned_words_in(course_id)
+        words = current_user.learned_words_in course_id
       when "not_learned"
-        words = current_user.not_learned_words_in(course_id)
+        words = current_user.not_learned_words_in course_id 
       when "all"
         words = Course.find_by(id: course_id).words
       end
     end
 
-    # Processes the answer
     def process_answer
-      answer = params[:word][:choice].to_s
-      word = Word.find_by(id: params[:id])
-      result = word.translation == answer
-      LearnedWord.create!(user_id: current_user.id, word_id: word.id,
-                          result: result)
+      answer = params[:word][:choice]
+      submitted_word = LearnedWord.find_by word_id: @word.id,
+                                           lesson_id: params[:lesson_id] 
+      submitted_word.update_attributes choice_id: answer
     end
 end
