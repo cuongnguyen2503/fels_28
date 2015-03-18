@@ -14,13 +14,13 @@ Rails.application.routes.draw do
 
   resources :relationships,   only: [:create, :destroy]
 
-  resources :courses, only: [:index, :show]
+  resources :courses
 
-  resources :lessons, only: [:show] do
-    resources :words, only: [:show]
+  resources :lessons do
+    resources :words
   end
 
-  resources :words, only: [:index]
+  resources :words
   resources :results, only: [:show]
 
   # The priority is based upon order of creation: first created -> highest priority.

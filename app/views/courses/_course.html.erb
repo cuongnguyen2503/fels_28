@@ -1,8 +1,13 @@
 <div class = "course_item">
-	<div class = "item_header">
-		<%= link_to course.name, course %>
-	</div>
-	<div class = "item_content">
-		<%= course.content %>
-	</div>
+  <div class = "item_header">
+    <%= link_to course.name, course %>
+    <span>
+      <%= link_to "Edit", edit_course_path(course) %> 
+      | <%= link_to "delete", course, method: :delete,
+                                    data: {confirm: "You sure?"} %>   
+    </span>     
+  </div>
+  <div class = "item_content">
+    <%= course.content %>
+  </div>
 </div>
