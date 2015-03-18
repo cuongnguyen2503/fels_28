@@ -1,9 +1,26 @@
 <div class = "course_item">
-	<div class = "item_header">
-		<%= @course.name %>
-	</div>
-	<div class = "item_content">
-		<%= @course.content %>
-	</div>
-  <%= link_to "Start", '#', class: "btn btn-lg btn-primary" %>	
+  <div class = "item_header">
+    <%= @course.name %>
+  </div>
+  <div class = "item_content">
+    <%= @course.content %>
+  </div>
+  <div class = "list-lessons">
+    <ul>
+      <% @lessons.each do |lesson| %>
+        <% if lesson.finished? %>
+          <li>
+            <%= link_to "Lesson #{lesson.id}", lesson_path(lesson) %>
+            <%= "(finished)" %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to "Lesson #{lesson.id}", lesson_word_path(lesson.id,
+                                             lesson.first_remain_word.id) %>
+            <%= "(#{lesson.num_of_submitted_words}/#{lesson.learned_words.count})" %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
 </div>
