@@ -2,6 +2,9 @@ class Course < ActiveRecord::Base
   has_many :lessons, dependent: :destroy
   has_many :words, dependent: :destroy
 
+  accepts_nested_attributes_for :words, reject_if: ->(a){a[:word].blank?}, allow_destroy: true
+  accepts_nested_attributes_for :lessons, reject_if: ->(a){a[:name].blank?}, allow_destroy: true
+
   def words_not_in(word_ids)
     words.where.not id: word_ids
   end

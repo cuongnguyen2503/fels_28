@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312065037) do
+ActiveRecord::Schema.define(version: 20150319042059) do
 
   create_table "choices", force: true do |t|
     t.string   "choice"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150312065037) do
     t.integer  "course_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   add_index "lessons", ["course_id"], name: "index_lessons_on_course_id", using: :btree

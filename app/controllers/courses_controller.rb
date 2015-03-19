@@ -13,6 +13,9 @@ class CoursesController < ApplicationController
 
   def new
     @course = Course.new
+    @lesson = @course.lessons.build
+    @word = @course.words.build
+    4.times {@word.choices.build}
   end
 
   def create
@@ -48,7 +51,7 @@ class CoursesController < ApplicationController
 
   private
     def course_params
-      params.require(:course).permit :name, :content
+      params.require(:course).permit :name, :content, lessons_attributes: [:course_id, :name], words_attributes: [:course_id, :word, :translation, choices_attributes: [:word_id, :choice]]
     end  
 
     def admin_user
