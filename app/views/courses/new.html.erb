@@ -1,0 +1,14 @@
+<% provide(:title, 'Make new course') %>
+
+<div class = "col-md-8 col-md-offset-2">
+  <%= form_for(@course) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class = "field">
+      <%= f.text_field :name, placeholder: "course name", class: "form-control" %>
+    </div>
+    <div class="field">
+      <%= f.text_field :content, placeholder: "course content", class: "form-control" %>
+    </div>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
+  <% end %>
+</div>
