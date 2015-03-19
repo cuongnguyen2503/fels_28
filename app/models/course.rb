@@ -2,6 +2,10 @@ class Course < ActiveRecord::Base
   has_many :lessons, dependent: :destroy
   has_many :words, dependent: :destroy
 
+  def words_not_in(word_ids)
+    words.where.not id: word_ids
+  end
+
   def lessons_learned_by_user(user_id)
     Lesson.learned_in_course_by_user id, user_id
   end
